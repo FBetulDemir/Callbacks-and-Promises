@@ -1,7 +1,8 @@
+// Converted existing promises (down below using .then() and .catch()) into async/await syntax
 const rollDice = () => {
     return new Promise((resolve, reject) => {
         const randomDice = Math.floor(Math.random() * 6) + 1;
-        randomDice
+        randomDice === 6
             ? resolve('You rolled a 6! You win!')
             : reject(
                   `You rolled a ${randomDice} and you lost. Try your chance another time!`
@@ -18,6 +19,8 @@ const rollDiceaResult = async () => {
     }
 };
 
+// rollDiceaResult();
+
 const fetchAdvice = async () => {
     try {
         const response = await fetch('https://api.adviceslip.com/advice');
@@ -28,9 +31,23 @@ const fetchAdvice = async () => {
     }
 };
 
-fetchAdvice();
+// fetchAdvice();
 
-// //  JavaScript function that returns a promise.
+const getAdviceAfterRollingDice = async () => {
+    try {
+        const result = await rollDice();
+        console.log(result);
+        const response = await fetch('https://api.adviceslip.com/advice');
+        const data = await response.json();
+        console.log('Advice:', data.slip.advice);
+    } catch (error) {
+        console.log('Error:', error);
+    }
+};
+
+getAdviceAfterRollingDice();
+
+// //  JavaScript function that returns a promise using .then() and .catch()
 // const rollDice = () => {
 //     return new Promise((resolve, reject) => {
 //         const randomDice = Math.floor(Math.random() * 6) + 1;
