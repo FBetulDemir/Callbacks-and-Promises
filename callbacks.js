@@ -1,40 +1,72 @@
-//  JavaScript function that returns a promise.
 const rollDice = () => {
     return new Promise((resolve, reject) => {
         const randomDice = Math.floor(Math.random() * 6) + 1;
-        if (randomDice === 6) {
-            resolve('You rolled a 6! You win!');
-        } else {
-            reject(
-                `You rolled a ${randomDice} and you lost. Try your chance another time!`
-            );
-        }
+        randomDice
+            ? resolve('You rolled a 6! You win!')
+            : reject(
+                  `You rolled a ${randomDice} and you lost. Try your chance another time!`
+              );
     });
 };
 
-const getAdvice = () => {
-    return fetch('https://api.adviceslip.com/advice')
-        .then((response) => response.json())
-        .then((data) => {
-            return data.slip.advice;
-        })
-        .catch((error) => {
-            console.error('Error fetching advice', error);
-        });
+const rollDiceaResult = async () => {
+    try {
+        const result = await rollDice();
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
-const rewardAdvice = () => {
-    rollDice()
-        .then((message) => {
-            console.log(message);
-            return getAdvice();
-        })
-        .then((advice) => {
-            console.log("Here's your reward advice: " + advice);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+const fetchAdvice = async () => {
+    try {
+        const response = await fetch('https://api.adviceslip.com/advice');
+        const data = await response.json();
+        console.log(data.slip.advice);
+    } catch {
+        console.log('Error fetching advice', error);
+    }
 };
 
-rewardAdvice();
+fetchAdvice();
+
+// //  JavaScript function that returns a promise.
+// const rollDice = () => {
+//     return new Promise((resolve, reject) => {
+//         const randomDice = Math.floor(Math.random() * 6) + 1;
+//         if (randomDice === 6) {
+//             resolve('You rolled a 6! You win!');
+//         } else {
+//             reject(
+//                 `You rolled a ${randomDice} and you lost. Try your chance another time!`
+//             );
+//         }
+//     });
+// };
+
+// const getAdvice = () => {
+//     return fetch('https://api.adviceslip.com/advice')
+//         .then((response) => response.json())
+//         .then((data) => {
+//             return data.slip.advice;
+//         })
+//         .catch((error) => {
+//             console.error('Error fetching advice', error);
+//         });
+// };
+
+// const rewardAdvice = () => {
+//     rollDice()
+//         .then((message) => {
+//             console.log(message);
+//             return getAdvice();
+//         })
+//         .then((advice) => {
+//             console.log("Here's your reward advice: " + advice);
+//         })
+//         .catch((error) => {
+//             console.log(error);
+//         });
+// };
+
+// rewardAdvice();
